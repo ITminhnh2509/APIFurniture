@@ -2,7 +2,6 @@ package com.project.furniture.model.user;
 
 import com.project.furniture.model.order.Order;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -54,7 +52,7 @@ public class User implements UserDetails {
     private int google_account_id = 0;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<Order> orderSet;
+    private List<Order> orderSet;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String nameRole = "";
