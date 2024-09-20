@@ -1,6 +1,8 @@
 package com.project.furniture.model.user;
 
+import com.project.furniture.model.order.Order;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,26 +12,58 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 100, nullable = false)
+    private String fullname;
+
+
+    @Column(length = 10, nullable = false)
+    private String phone_number;
+
+
+    @Column(length = 100, nullable = false)
+    private String address;
+
+    private boolean isActive = true;
+
+    private Date date_of_birth;
 
     @Column(unique = true)
     private String username;
-    private String password;
-    private String role;
 
+    @Column(length = 100, nullable = false)
+    private String password;
+
+    private int role;
+
+    private int facebook_account_id = 0;
+    private int google_account_id = 0;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Order> orderSet;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toUpperCase()));
+        String nameRole = "";
+        if(role == 0){
+            nameRole = "ADMIN";
+        } else {
+            nameRole = "USER";
+        }
+        return List.of(new SimpleGrantedAuthority(nameRole.toUpperCase()));
     }
 
     @Override
