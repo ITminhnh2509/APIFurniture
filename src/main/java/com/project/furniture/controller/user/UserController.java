@@ -55,6 +55,6 @@ public class UserController {
                 .status(HttpStatus.OK.value())
                 .message("Create user Success")
                 .build();
-        return ResponseEntity.ok().body(apiResponse);
+        return ResponseEntity.ok(apiResponse);
     }
 }

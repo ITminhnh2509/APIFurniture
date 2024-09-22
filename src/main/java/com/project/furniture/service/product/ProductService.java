@@ -17,12 +17,12 @@ public class ProductService implements IProductService{
 
     @Override
     public Page<Product> getAll(Pageable pageable) {
-        return null;
+        return repository.findAll(pageable);
     }
 
     @Override
     public List<Product> getAll() {
-        return List.of();
+        return repository.findAll();
     }
 
     @Override
@@ -32,11 +32,15 @@ public class ProductService implements IProductService{
 
     @Override
     public Product save(Product dto) {
-        return null;
+        return repository.save(dto);
     }
 
     @Override
     public Product update(Long aLong, Product dto) {
+        Product getProduct = getById(aLong);
+        if(getProduct!=null){
+            return repository.save(getProduct);
+        }
         return null;
     }
 
