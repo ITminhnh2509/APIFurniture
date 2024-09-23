@@ -41,7 +41,7 @@ public class UserController {
                 .build();
         return ResponseEntity.ok().body(apiResponse);
     }
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody User user, BindingResult result) throws Exception {
         if(result.hasErrors()){
             List<String> errors = result.getFieldErrors().stream()

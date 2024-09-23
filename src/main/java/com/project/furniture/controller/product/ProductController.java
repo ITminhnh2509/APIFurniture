@@ -1,5 +1,6 @@
 package com.project.furniture.controller.product;
 
+import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
 import com.project.furniture.response.ApiResponse;
 import com.project.furniture.response.product.ProductListResponse;
@@ -115,16 +116,16 @@ public class ProductController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
-//    @GetMapping("/category")
-//    public ResponseEntity<?> getProductByCategory(@RequestParam String category) {
-//        List<Product> products = productService.findByCategory(category);
-//        ApiResponse apiResponse = ApiResponse
-//                .builder()
-//                .data(products)
-//                .message("get successfully")
-//                .build();
-//        return ResponseEntity.ok(apiResponse);
-//    }
+    @GetMapping("/category")
+    public ResponseEntity<?> getProductByCategory(@RequestParam Category category) {
+        List<Product> products = productService.findByCategory(category);
+        ApiResponse apiResponse = ApiResponse
+                .builder()
+                .data(products)
+                .message("get successfully")
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
     @GetMapping("/search")
     public ResponseEntity<?> searchProducts(@RequestParam String name, @RequestParam Long minPrice, @RequestParam Long maxPrice, @RequestParam String category) {
         List<Product> products = productService.searchProducts(name, minPrice, maxPrice, category);
