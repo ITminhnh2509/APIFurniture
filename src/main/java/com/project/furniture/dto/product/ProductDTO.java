@@ -25,6 +25,7 @@ public class ProductDTO {
     @NotEmpty(message = "Price must not be empty")
     private Long price;
     private String description;
+    private boolean isActive;
     private Category category;
     private List<ProuductImage> productImages;
 

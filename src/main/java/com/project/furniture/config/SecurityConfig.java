@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,"/api/user/list/**").hasRole("USER")
                 .requestMatchers(HttpMethod.GET,"/api/user/**").hasRole("USER")
                 .requestMatchers(HttpMethod.GET,"/api/category/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/furniture/**").hasRole("USER")
                 .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
                 .anyRequest().authenticated();
                 return http.build();
