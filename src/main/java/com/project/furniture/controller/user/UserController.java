@@ -3,7 +3,7 @@ package com.project.furniture.controller.user;
 import com.project.furniture.dto.user.RefreshTokenDTO;
 import com.project.furniture.dto.user.UserDTO;
 import com.project.furniture.dto.user.UserLoginDTO;
-import com.project.furniture.model.user.Token;
+
 import com.project.furniture.model.user.User;
 import com.project.furniture.response.ApiResponse;
 import com.project.furniture.response.user.LoginResponse;
