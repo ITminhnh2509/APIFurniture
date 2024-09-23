@@ -1,6 +1,7 @@
 package com.project.furniture.model.user;
 
 import com.project.furniture.model.BaseEntity;
+import com.project.furniture.model.category.Category;
 import com.project.furniture.model.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,10 +26,12 @@ public class User implements UserDetails {
     @Column(unique=true)
     private String username;
     private String password;
-    private String role;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toUpperCase()));
+        return List.of(new SimpleGrantedAuthority(role.getName().toUpperCase()));
     }
     @Override
     public boolean isAccountNonExpired() {

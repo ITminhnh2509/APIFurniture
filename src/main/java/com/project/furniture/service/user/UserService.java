@@ -2,6 +2,8 @@ package com.project.furniture.service.user;
 
 
 import com.project.furniture.config.JwtToken;
+import com.project.furniture.model.user.Role;
+import com.project.furniture.repository.RoleRepository;
 import com.project.furniture.repository.user.UserRepository;
 import com.project.furniture.model.user.User;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtToken jwtToken;
@@ -27,8 +30,12 @@ public class UserService implements IUserService {
             throw new Exception("Username is already taken.");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Role role = roleRepository.findById(user.getRole().getId())
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
         return userRepository.save(user);
     }
+
 
     @Override
     public List<User> getAllUsers() {
