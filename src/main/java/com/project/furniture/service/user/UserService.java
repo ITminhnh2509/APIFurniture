@@ -3,7 +3,7 @@ package com.project.furniture.service.user;
 
 import com.project.furniture.config.JwtToken;
 import com.project.furniture.model.user.Role;
-import com.project.furniture.repository.RoleRepository;
+import com.project.furniture.repository.user.RoleRepository;
 import com.project.furniture.repository.user.UserRepository;
 import com.project.furniture.model.user.User;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

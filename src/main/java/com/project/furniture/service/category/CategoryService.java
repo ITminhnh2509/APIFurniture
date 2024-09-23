@@ -1,7 +1,9 @@
 package com.project.furniture.service.category;
 
 import com.project.furniture.model.category.Category;
+import com.project.furniture.model.user.Role;
 import com.project.furniture.repository.category.CategoryRepository;
+import jakarta.servlet.http.PushBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,8 +31,9 @@ public class CategoryService implements ICategoryService {
         return repository.getById(aLong);
     }
 
-    @Override
-    public Category save(Category dto) {
+@Override
+    public
+    Category save(Category dto) {
         return repository.save(dto);
     }
 

@@ -3,6 +3,7 @@ package com.project.furniture.service.product;
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
 import com.project.furniture.model.product.ProuductImage;
+import com.project.furniture.repository.category.CategoryRepository;
 import com.project.furniture.repository.product.ProductRepository;
 import com.project.furniture.response.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService implements IProductService{
     private final ProductRepository repository;
-
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<Product> getAll(Pageable pageable) {
@@ -36,7 +37,12 @@ public class ProductService implements IProductService{
 
     @Override
     public Product save(Product dto) {
+        Category category = categoryRepository.findById(dto.getCategory().getId())
+                .orElseThrow(() -> new RuntimeException("Id Not Found"));
+//        category.setName(dto.getName());
+        dto.setCategory(category);
         return repository.save(dto);
+
     }
 
     @Override

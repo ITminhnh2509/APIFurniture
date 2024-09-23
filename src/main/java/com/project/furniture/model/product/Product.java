@@ -28,7 +28,7 @@ public class Product extends BaseEntity {
     private String description;
     private boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
