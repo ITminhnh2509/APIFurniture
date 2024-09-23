@@ -15,62 +15,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+    private final JwtFilter jwtFilter;
 
-    private final UserRepository userRepository;
-
-    // UserDetailsService bean to fetch user details from the repository
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return phoneNumber -> userRepository
-                .findByPhoneNumber(phoneNumber)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Cannot find user with phone number = " + phoneNumber));
-    }
-
-    // BCrypt password encoder
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    // Authentication provider with user details service and password encoder
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    // Authentication manager bean
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    // Security filter chain configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users/**").hasAuthority("ROLE_USER")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic().disable()
-                .formLogin().disable();
-
+                .requestMatchers(HttpMethod.POST,"/api/user/login").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/user/list/**").hasRole("USER")
+                .requestMatchers(HttpMethod.GET,"/api/user/**").hasRole("USER")
+                .requestMatchers(HttpMethod.GET,"/api/category/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
+                .anyRequest().authenticated();
         return http.build();
     }
-
-
-
-
 }
+
+
+
+
+

@@ -1,7 +1,6 @@
-package com.project.furniture.util;
+package com.project.furniture.config;
 
-import com.project.furniture.exception.ValidParamException;
-import com.project.furniture.model.user.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,41 +9,43 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class JwtTokenUtil {
+public class JwtToken {
     @Value("${jwt.expiration}")
     private int expiration; //save to an environment variable
     @Value("${jwt.secretKey}")
     private String secretKey;
-    public String generateToken(User user) throws Exception {
+    public String generateToken(com.project.furniture.model.user.User user) throws Exception{
+        //properties => claims
         Map<String, Object> claims = new HashMap<>();
-        claims.put("phoneNumber", user.getPhoneNumber());
-        claims.put("role", user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));  // Include roles in claims
+        //this.generateSecretKey();
+        claims.put("username", user.getUsername());
         try {
-            return Jwts.builder()
-                    .setClaims(claims)
-                    .setSubject(user.getPhoneNumber())
+            String token = Jwts.builder()
+                    .setClaims(claims) //how to extract claims from this ?
+                    .setSubject(user.getUsername())
                     .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
-        } catch (Exception e) {
-            throw new ValidParamException("Cannot create jwt token, error: " + e.getMessage());
+            return token;
+        }catch (Exception e) {
+            //you can "inject" Logger, instead System.out.println
+            throw new Exception("Cannot create jwt token, error: "+e.getMessage());
+
+            //return null;
         }
     }
-
     private Key getSignInKey() {
         byte[] bytes = Decoders.BASE64.decode(secretKey);
         //Keys.hmacShaKeyFor(Decoders.BASE64.decode("TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI="));
@@ -78,18 +79,13 @@ public class JwtTokenUtil {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
     }
-    public String extractPhoneNumber(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
     public boolean validateToken(String token, UserDetails userDetails) {
-        String phoneNumber = extractPhoneNumber(token);
-        List<String> roles = extractClaim(token, claims -> (List<String>) claims.get("role"));
-
-        return phoneNumber.equals(userDetails.getUsername()) &&
-                roles.contains("ROLE_USER") &&  // Ensure the token has the correct role
-                !isTokenExpired(token);
+        String phoneNumber = extractUsername(token);
+        return (phoneNumber.equals(userDetails.getUsername()))
+                && !isTokenExpired(token);
     }
-
-
 
 }

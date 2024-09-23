@@ -8,9 +8,9 @@ import com.project.furniture.service.IService;
 
 import java.util.List;
 
-public interface IUserService extends IService<User, Long> {
-    User createUser(UserDTO userDTO) throws Exception;
-    String login(String phoneNumber, String password) throws  Exception;
-    User getUserDetailsFromToken(String token) throws Exception;
-    User getUserDetailsFromRefreshToken(String freshToken) throws Exception;
+public interface IUserService  {
+    User createUser(User user) throws Exception;
+    List<User> getAllUsers();
+    User getUserByUsername(String username) throws Exception;
+    String login(String username, String password) throws Exception;
 }
