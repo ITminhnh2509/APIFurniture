@@ -23,7 +23,7 @@ public interface IProductService  extends IService<Product,Long> {
 
     List<ProductImage> getAll(Long id);
     ProductImage getProductImageById(Long id);
-//    ProductImage create(Long id,ProductImageDTO productImage);
+    ProductImage create(Long id,ProductImageDTO productImage);
 //    ProductImage update(Long id, ProductImageDTO productImage);
     void removeProductImage(Long id);
 }

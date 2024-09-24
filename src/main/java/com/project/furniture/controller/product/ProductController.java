@@ -132,6 +132,7 @@ public class ProductController {
                 .builder()
                 .data(products)
                 .message("get successfully")
+                .status(HttpStatus.OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
@@ -141,6 +142,7 @@ public class ProductController {
         ApiResponse apiResponse = ApiResponse
                 .builder()
                 .data(products)
+                .status(HttpStatus.OK.value())
                 .message("get successfully")
                 .build();
         return ResponseEntity.ok(apiResponse);
@@ -152,6 +154,7 @@ public class ProductController {
                 .builder()
                 .data(products)
                 .message("get successfully")
+                .status(HttpStatus.OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
@@ -162,54 +165,55 @@ public class ProductController {
                 .builder()
                 .data(products)
                 .message("get successfully")
+                .status(HttpStatus.OK.value())
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
-//    @PostMapping("/uploadimage/{id}")
-//    public ResponseEntity<?> saveProductImage(@PathVariable Long id,
-//                                              @ModelAttribute("files") List<MultipartFile> files) throws IOException {
-//        List<ProductImage> productImages = new ArrayList<>();
-//        int count = 0;
-//        for (MultipartFile file : files) {
-//            if(file!=null){
-//                if(file.getSize()==0){
-//                    count++;
-//                    continue;
-//                }
-//                String filename = storeFile(file);
-//                ProductImageDTO productImagedto = ProductImageDTO.builder()
-//                        .image_url(filename)
-//                        .build();
-//                ProductImage productImage = productService.create(id, productImagedto);
-//                productImages.add(productImage);
-//            }
-//        }
-//
-//        if(count==1){
-//            throw new IllegalArgumentException("File is empty");
-//        }
-//        ApiResponse apiResponse = ApiResponse.builder()
-//                .data(productImages)
-//                .message("upload successful")
-//                .status(HttpStatus.OK.value())
-//                .build();
-//        return ResponseEntity.ok(apiResponse);
-//    }
-//    private String storeFile(MultipartFile file) throws IOException {
-//
-//        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-//
-//        String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFilename;
-//
-//        Path uploadDir = Paths.get("upload");
-//
-//        if (!Files.exists(uploadDir)) {
-//            Files.createDirectories(uploadDir);
-//        }
-//        Path filePath = Paths.get(uploadDir.toString(),uniqueFileName);
-//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//        return uniqueFileName;
-//    }
+    @PostMapping("/uploadimage/{id}")
+    public ResponseEntity<?> saveProductImage(@PathVariable Long id,
+                                              @ModelAttribute("files") List<MultipartFile> files) throws IOException {
+        List<ProductImage> productImages = new ArrayList<>();
+        int count = 0;
+        for (MultipartFile file : files) {
+            if(file!=null){
+                if(file.getSize()==0){
+                    count++;
+                    continue;
+                }
+                String filename = storeFile(file);
+                ProductImageDTO productImagedto = ProductImageDTO.builder()
+                        .image_url(filename)
+                        .build();
+                ProductImage productImage = productService.create(id, productImagedto);
+                productImages.add(productImage);
+            }
+        }
+
+        if(count==1){
+            throw new IllegalArgumentException("File is empty");
+        }
+        ApiResponse apiResponse = ApiResponse.builder()
+                .data(productImages)
+                .message("upload successful")
+                .status(HttpStatus.OK.value())
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+    private String storeFile(MultipartFile file) throws IOException {
+
+        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+
+        Path uploadDir = Paths.get("upload");
+
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+        Path filePath = Paths.get(uploadDir.toString(),uniqueFileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        return uniqueFileName;
+    }
 //    @GetMapping()
 //    public ResponseEntity<?>
 }

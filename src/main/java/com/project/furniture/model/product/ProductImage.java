@@ -20,9 +20,9 @@ public class ProductImage extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String image_url;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    @JsonBackReference
+//    @JsonBackReference
     private Product product;
 
 }

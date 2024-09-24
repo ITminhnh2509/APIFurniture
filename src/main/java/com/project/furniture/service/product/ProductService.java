@@ -96,16 +96,16 @@ public class ProductService implements IProductService{
         return productImageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id Not Found"));
     }
 
-//    @Override
-//    public ProductImage create(Long id,ProductImageDTO productImage) {
-//        Product product = getById(id);
-//        ProductImage productImage1 =  ProductImage.builder()
-//                .product(product)
-//                .image_url(productImage.getImage_url())
-//                .build();
-//
-//        return productImageRepository.save(productImage1);
-//    }
+    @Override
+    public ProductImage create(Long id,ProductImageDTO productImage) {
+        Product product = getById(id);
+        ProductImage productImage1 =  ProductImage.builder()
+                .product(product)
+                .image_url(productImage.getImage_url())
+                .build();
+
+        return productImageRepository.save(productImage1);
+    }
 
     @Override
     public void removeProductImage(Long id) {

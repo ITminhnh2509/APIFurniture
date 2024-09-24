@@ -24,7 +24,7 @@ public class Category {
     private String name;
 
     private boolean isActive;
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Product> products;
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+////    @JsonManagedReference
+//    private Set<Product> products;
 }
