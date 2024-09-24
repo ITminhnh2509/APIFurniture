@@ -7,6 +7,7 @@ import com.project.furniture.dto.user.UserLoginDTO;
 import com.project.furniture.model.user.User;
 import com.project.furniture.response.ApiResponse;
 import com.project.furniture.response.user.LoginResponse;
+import com.project.furniture.service.user.TokenService;
 import com.project.furniture.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final TokenService tokenService;
     @GetMapping("/list")
     public ResponseEntity<ApiResponse> index() {
         ApiResponse apiResponse=ApiResponse.builder()

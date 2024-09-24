@@ -13,4 +13,7 @@ public interface IUserService  {
     List<User> getAllUsers();
     User getUserByUsername(String username) throws Exception;
     String login(String username, String password) throws Exception;
+    User getUserDetailsFromToken(String token) throws Exception;
+    User getUserDetailsFromRefreshToken(String freshToken) throws Exception;
+
 }

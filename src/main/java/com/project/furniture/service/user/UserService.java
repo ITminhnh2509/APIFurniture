@@ -2,6 +2,9 @@ package com.project.furniture.service.user;
 
 
 import com.project.furniture.config.JwtToken;
+import com.project.furniture.dto.user.UserDTO;
+import com.project.furniture.exception.DataNotFoundException;
+import com.project.furniture.exception.PermissionDenyException;
 import com.project.furniture.model.user.Role;
 import com.project.furniture.repository.user.RoleRepository;
 import com.project.furniture.repository.user.UserRepository;
@@ -36,6 +39,28 @@ public class UserService implements IUserService {
     }
 
 
+//    @Override
+//    public User createUser(User userDTO) throws Exception {
+//        String Username = userDTO.getUsername();
+//        if(userRepository.existsByUsername(Username)) {
+//            throw new DataNotFoundException("Username " + Username + " already exists");
+//        }
+//        Role role =roleRepository.findById(userDTO.getRole().getId())
+//                .orElseThrow(() -> new DataNotFoundException("Role not found"));
+//        if(role.getName().toUpperCase().equals(Role.ADMIN)) {
+//            throw new PermissionDenyException("You cannot register an admin account");
+//        }
+//
+//        User newUser = User
+//                .builder()
+//                .username(userDTO.getUsername())
+//                .password(userDTO.getPassword())
+//                .build();
+//        newUser.setRole(role);
+//
+//        return userRepository.save(newUser);
+//    }
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -59,5 +84,15 @@ public class UserService implements IUserService {
         return jwtToken.generateToken(user);
 
 
+    }
+
+    @Override
+    public User getUserDetailsFromToken(String token) throws Exception {
+        return null;
+    }
+
+    @Override
+    public User getUserDetailsFromRefreshToken(String freshToken) throws Exception {
+        return null;
     }
 }
