@@ -1,14 +1,14 @@
 package com.project.furniture.service.product;
 
+import com.project.furniture.dto.product.ProductImageDTO;
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
-import com.project.furniture.model.product.ProuductImage;
+import com.project.furniture.model.product.ProductImage;
 import com.project.furniture.repository.category.CategoryRepository;
+import com.project.furniture.repository.product.ProductImageRepository;
 import com.project.furniture.repository.product.ProductRepository;
-import com.project.furniture.response.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class ProductService implements IProductService{
     private final ProductRepository repository;
     private final CategoryRepository categoryRepository;
-
+    private final ProductImageRepository productImageRepository;
     @Override
     public Page<Product> getAll(Pageable pageable) {
         return repository.findAll(pageable);
@@ -82,8 +82,38 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<Product> searchProducts(String name, Long minPrice, Long maxPrice, String category) {
-        return repository.searchProducts(name,minPrice,maxPrice, category);
+    public List<Product> searchProducts(String name, Long minPrice, Long maxPrice) {
+        return repository.searchProducts(name,minPrice,maxPrice);
+    }
+
+    @Override
+    public List<ProductImage> getAll(Long id) {
+        return productImageRepository.findByProductId(id);
+    }
+
+    @Override
+    public ProductImage getProductImageById(Long id) {
+        return productImageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id Not Found"));
+    }
+
+//    @Override
+//    public ProductImage create(Long id,ProductImageDTO productImage) {
+//        Product product = getById(id);
+//        ProductImage productImage1 =  ProductImage.builder()
+//                .product(product)
+//                .image_url(productImage.getImage_url())
+//                .build();
+//
+//        return productImageRepository.save(productImage1);
+//    }
+
+    @Override
+    public void removeProductImage(Long id) {
+        ProductImage productImage1 = productImageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id Not Found"));
+        if (productImage1 != null){
+            productImage1.setImage_url(productImage1.getImage_url());
+        }
+        productImageRepository.deleteById(id);
     }
 
 

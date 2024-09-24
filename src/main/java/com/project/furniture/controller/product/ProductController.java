@@ -1,7 +1,9 @@
 package com.project.furniture.controller.product;
 
+import com.project.furniture.dto.product.ProductImageDTO;
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
+import com.project.furniture.model.product.ProductImage;
 import com.project.furniture.response.ApiResponse;
 import com.project.furniture.response.product.ProductListResponse;
 import com.project.furniture.response.product.ProductResponse;
@@ -14,11 +16,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,6 +64,24 @@ public class ProductController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+//@GetMapping("")
+//public ResponseEntity<ProductListResponse> getAllProduct(
+//        @RequestParam("page") int page,
+//        @RequestParam("limit") int limit
+//){
+//    Pageable pageRequest=PageRequest.of(
+//            page,limit,
+//            Sort.by("createdAt").descending()
+//    );
+//
+//    Page<ProductResponse> productPage=productService.getAll(pageRequest);
+//    int totalPages=productPage.getTotalPages();
+//    List<ProductResponse> responseProducts=productPage.getContent();
+//    return ResponseEntity.ok(ProductListResponse.builder()
+//            .productResponseList(responseProducts)
+//            .totalPages(totalPages)
+//            .build());
+//}
     @PostMapping("/add")
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
         ApiResponse apiResponse = ApiResponse
@@ -127,8 +156,8 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
     @GetMapping("/search")
-    public ResponseEntity<?> searchProducts(@RequestParam String name, @RequestParam Long minPrice, @RequestParam Long maxPrice, @RequestParam String category) {
-        List<Product> products = productService.searchProducts(name, minPrice, maxPrice, category);
+    public ResponseEntity<?> searchProducts(@RequestParam String name, @RequestParam Long minPrice, @RequestParam Long maxPrice) {
+        List<Product> products = productService.searchProducts(name, minPrice, maxPrice);
         ApiResponse apiResponse = ApiResponse
                 .builder()
                 .data(products)
@@ -136,4 +165,51 @@ public class ProductController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+//    @PostMapping("/uploadimage/{id}")
+//    public ResponseEntity<?> saveProductImage(@PathVariable Long id,
+//                                              @ModelAttribute("files") List<MultipartFile> files) throws IOException {
+//        List<ProductImage> productImages = new ArrayList<>();
+//        int count = 0;
+//        for (MultipartFile file : files) {
+//            if(file!=null){
+//                if(file.getSize()==0){
+//                    count++;
+//                    continue;
+//                }
+//                String filename = storeFile(file);
+//                ProductImageDTO productImagedto = ProductImageDTO.builder()
+//                        .image_url(filename)
+//                        .build();
+//                ProductImage productImage = productService.create(id, productImagedto);
+//                productImages.add(productImage);
+//            }
+//        }
+//
+//        if(count==1){
+//            throw new IllegalArgumentException("File is empty");
+//        }
+//        ApiResponse apiResponse = ApiResponse.builder()
+//                .data(productImages)
+//                .message("upload successful")
+//                .status(HttpStatus.OK.value())
+//                .build();
+//        return ResponseEntity.ok(apiResponse);
+//    }
+//    private String storeFile(MultipartFile file) throws IOException {
+//
+//        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+//
+//        String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+//
+//        Path uploadDir = Paths.get("upload");
+//
+//        if (!Files.exists(uploadDir)) {
+//            Files.createDirectories(uploadDir);
+//        }
+//        Path filePath = Paths.get(uploadDir.toString(),uniqueFileName);
+//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//        return uniqueFileName;
+//    }
+//    @GetMapping()
+//    public ResponseEntity<?>
 }

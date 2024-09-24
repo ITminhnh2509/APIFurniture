@@ -1,5 +1,6 @@
 package com.project.furniture.model.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.furniture.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @Entity
 @Table(name = "product_images")
 @Builder
-public class ProuductImage extends BaseEntity {
+public class ProductImage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +20,9 @@ public class ProuductImage extends BaseEntity {
     @Column(nullable = false, length = 255)
     private String image_url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
 
 }

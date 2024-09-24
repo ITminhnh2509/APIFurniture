@@ -18,12 +18,12 @@ public class CategoryResponse extends BaseResponse {
     private String name;
     private Set<Product> products;
 
-    public static CategoryResponse fromCategory(Category category) {
-        CategoryResponse response = CategoryResponse.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .products(category.getProducts())
-                .build();
-        return response;
-    }
+//    public static CategoryResponse fromCategory(Category category) {
+//        CategoryResponse response = CategoryResponse.builder()
+//                .id(category.getId())
+//                .name(category.getName())
+//                .products(category.getProducts())
+//                .build();
+//        return response;
+//    }
 }

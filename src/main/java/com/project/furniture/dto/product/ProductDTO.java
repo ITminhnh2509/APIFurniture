@@ -1,13 +1,8 @@
 package com.project.furniture.dto.product;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.furniture.model.category.Category;
-import com.project.furniture.model.product.ProuductImage;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import com.project.furniture.model.product.ProductImage;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -27,7 +22,7 @@ public class ProductDTO {
     private String description;
     private boolean isActive;
     private Category category;
-    private List<ProuductImage> productImages;
+    private List<ProductImage> productImages;
 
 
 }

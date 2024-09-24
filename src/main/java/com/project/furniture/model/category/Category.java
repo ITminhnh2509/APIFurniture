@@ -1,5 +1,6 @@
 package com.project.furniture.model.category;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.furniture.model.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,5 +25,6 @@ public class Category {
 
     private boolean isActive;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Product> products;
 }

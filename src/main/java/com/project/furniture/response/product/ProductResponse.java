@@ -2,9 +2,8 @@ package com.project.furniture.response.product;
 
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
-import com.project.furniture.model.product.ProuductImage;
+import com.project.furniture.model.product.ProductImage;
 import com.project.furniture.response.BaseResponse;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class ProductResponse extends BaseResponse {
     private String description;
     private boolean isActive;
     private Category category;
-    private List<ProuductImage> productImages;
+    private List<ProductImage> productImages;
 
     public static ProductResponse fromProduct(Product product) {
         ProductResponse response = ProductResponse

@@ -1,5 +1,7 @@
 package com.project.furniture.model.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.furniture.model.BaseEntity;
 import com.project.furniture.model.category.Category;
 import jakarta.persistence.*;
@@ -28,10 +30,12 @@ public class Product extends BaseEntity {
     private String description;
     private boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     private Category category;
 
-     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-     private List<ProuductImage> productImages;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<ProductImage> productImages;
 }
