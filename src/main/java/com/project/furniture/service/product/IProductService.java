@@ -26,4 +26,7 @@ public interface IProductService  extends IService<Product,Long> {
     ProductImage create(Long id,ProductImageDTO productImage);
 //    ProductImage update(Long id, ProductImageDTO productImage);
     void removeProductImage(Long id);
+
+    ProductImage saveProductImage(Long productId, ProductImageDTO productImageDTO);
+
 }

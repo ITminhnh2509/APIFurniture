@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 
 @Service
@@ -114,6 +115,20 @@ public class ProductService implements IProductService{
             productImage1.setImage_url(productImage1.getImage_url());
         }
         productImageRepository.deleteById(id);
+    }
+    //admin luu hinh
+    @Override
+    public ProductImage saveProductImage(Long productId, ProductImageDTO productImageDTO) {
+        Product product=getById(productId);
+        ProductImage productImage=ProductImage.builder()
+                .product(product)
+                .image_url(productImageDTO.getImage_url())
+                .build();
+        int size=productImageRepository.findByProductId(productId).size();
+        if(size>=4)
+            throw new InvalidParameterException("mỗi sinh viên tối đa 4 hình");
+
+        return productImageRepository.save(productImage);
     }
 
 

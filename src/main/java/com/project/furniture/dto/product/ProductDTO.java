@@ -1,6 +1,7 @@
 package com.project.furniture.dto.product;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.ProductImage;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,6 +23,8 @@ public class ProductDTO {
     private String description;
     private boolean isActive;
     private Category category;
+
+
     private List<ProductImage> productImages;
 
 
