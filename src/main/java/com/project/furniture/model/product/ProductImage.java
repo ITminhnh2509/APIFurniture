@@ -12,17 +12,19 @@ import lombok.*;
 @Entity
 @Table(name = "product_images")
 @Builder
-public class ProductImage extends BaseEntity {
+public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
-    private String image_url;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne
     @JoinColumn(name = "product_id")
-//    @JsonBackReference
+    @JsonBackReference
     private Product product;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
 }
