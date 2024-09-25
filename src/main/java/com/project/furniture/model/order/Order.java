@@ -1,5 +1,6 @@
 package com.project.furniture.model.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.furniture.model.BaseEntity;
 import com.project.furniture.model.user.User;
 import jakarta.persistence.*;
@@ -52,6 +53,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 }

@@ -13,4 +13,10 @@ public class OrderDetailDTO {
     private int number_of_products;
     private Long total_money;
     private Order order;
+
+    //hai them
+    private Long orderId;
+    private Long productId;
 }
+
+

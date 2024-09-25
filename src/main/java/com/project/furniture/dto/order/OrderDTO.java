@@ -22,5 +22,8 @@ public class OrderDTO {
     private String shipping_date;
     private String tracking_number;
     private String paymentMethod;
+
     private List<OrderDetailDTO> orderDetails;
+    //hai them
+    private Long userId;
 }

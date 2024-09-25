@@ -1,6 +1,7 @@
 package com.project.furniture.model.order;
 
 import com.project.furniture.model.BaseEntity;
+import com.project.furniture.model.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,4 +24,9 @@ public class OrderDetails extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @ManyToOne
+    @JoinColumn(name="product_id")
+    private Product product;
+
 }
