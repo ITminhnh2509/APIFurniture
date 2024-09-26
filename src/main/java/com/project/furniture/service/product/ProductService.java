@@ -56,7 +56,7 @@ public class ProductService implements IProductService{
             product.setDescription(dto.getDescription());
             product.setActive(dto.isActive());
             product.setCategory(dto.getCategory());
-            product.setProductImages(dto.getProductImages());
+//            product.setProductImages(dto.getProductImages());
         }
         return repository.save(product);
     }
@@ -89,7 +89,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<ProductImage> getAll(Long id) {
+    public List<ProductImage> getAllImage(Long id) {
         return productImageRepository.findByProductId(id);
     }
 
@@ -103,9 +103,12 @@ public class ProductService implements IProductService{
         Product product = getById(id);
         ProductImage productImage1 =  ProductImage.builder()
                 .product(product)
-                .image_url(productImage.getImage_url())
+                .imageUrl(productImage.getImageURL())
                 .build();
-
+        int size = productImageRepository.findByProductId(id).size();
+        if(size>=4){
+            throw new InvalidParameterException("Max 4 Hinh");
+        }
         return productImageRepository.save(productImage1);
     }
 
@@ -113,7 +116,7 @@ public class ProductService implements IProductService{
     public void removeProductImage(Long id) {
         ProductImage productImage1 = productImageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id Not Found"));
         if (productImage1 != null){
-            productImage1.setImage_url(productImage1.getImage_url());
+            productImage1.setImageUrl(productImage1.getImageUrl());
         }
         productImageRepository.deleteById(id);
     }

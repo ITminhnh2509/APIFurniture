@@ -21,7 +21,7 @@ public interface IProductService  extends IService<Product,Long> {
 //    Page<ProductResponse> searchProducts(@NotEmpty String name, @NotEmpty String minPrice, @NotEmpty String maxPrice, @NotEmpty String category, Pageable pageable);
 
 
-    List<ProductImage> getAll(Long id);
+    List<ProductImage> getAllImage(Long id);
     ProductImage getProductImageById(Long id);
     ProductImage create(Long id,ProductImageDTO productImage);
 //    ProductImage update(Long id, ProductImageDTO productImage);

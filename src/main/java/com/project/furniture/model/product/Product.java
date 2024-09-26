@@ -1,7 +1,6 @@
 package com.project.furniture.model.product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.furniture.model.BaseEntity;
 import com.project.furniture.model.category.Category;
@@ -34,13 +33,9 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
 //    @JsonBackReference
-
-
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    @JsonManagedReference
-
-    @JsonIgnore
     private List<ProductImage> productImages;
 }
