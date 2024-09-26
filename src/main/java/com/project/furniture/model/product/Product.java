@@ -30,12 +30,19 @@ public class Product extends BaseEntity {
     private String description;
     private boolean isActive;
 
+    //    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "category_id")
+////    @JsonBackReference
+//    private Category category;
+//
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+////    @JsonManagedReference
+//    private List<ProductImage> productImages;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-//    @JsonBackReference
     private Category category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    @JsonManagedReference
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ProductImage> productImages;
 }

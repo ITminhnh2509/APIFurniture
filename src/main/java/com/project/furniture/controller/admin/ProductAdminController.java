@@ -1,5 +1,6 @@
 package com.project.furniture.controller.admin;
 
+import com.project.furniture.dto.product.ProductDTO;
 import com.project.furniture.dto.product.ProductImageDTO;
 import com.project.furniture.model.product.Product;
 
@@ -25,8 +26,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +38,13 @@ public class ProductAdminController {
     private final ProductService productService;
     @GetMapping("/")
     public ResponseEntity<?> getAllProducts() {
+        List<Product> products = productService.getAll();
+        List<ProductDTO> productDTOs = products.stream()
+                .map(product -> new ProductDTO(product.getName(), product.getPrice(), product.getDescription(), product.isActive(),product.getCategory()))
+                .collect(Collectors.toList());
+
         ApiResponse apiResponse = ApiResponse.builder()
-                .data(productService.getAll())
+                .data(productDTOs)
                 .message("get all successfully")
                 .status(HttpStatus.OK.value())
                 .build();
@@ -97,7 +105,7 @@ public ResponseEntity<ApiResponse> uploads3(@PathVariable Long id, @ModelAttribu
         if (file != null && file.getSize() > 0) {
             String fileName = storeFile(file);
             ProductImageDTO productImageDTO = ProductImageDTO.builder()
-                    .image_url(fileName)
+                    .imageURL(fileName)
                     .build();
             ProductImage productImage = productService.saveProductImage(id, productImageDTO);
             productImages.add(productImage);

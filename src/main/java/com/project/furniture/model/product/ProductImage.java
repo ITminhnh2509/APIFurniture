@@ -18,7 +18,7 @@ public class ProductImage extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    private String image_url;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")

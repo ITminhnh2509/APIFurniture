@@ -27,5 +27,11 @@ public class ProductDTO {
 
     private List<ProductImage> productImages;
 
-
+    public ProductDTO(String name, Long price, String description, boolean isActive, Category category) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.isActive = isActive;
+        this.category = category;
+    }
 }

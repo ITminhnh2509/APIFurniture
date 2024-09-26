@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/api/furniture/**").permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/user/register").permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/admin/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/admin/**").permitAll()
                 .anyRequest().authenticated();
                 return http.build();
     }

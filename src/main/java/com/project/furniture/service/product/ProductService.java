@@ -126,7 +126,7 @@ public class ProductService implements IProductService{
         Product product=getById(productId);
         ProductImage productImage=ProductImage.builder()
                 .product(product)
-                .image_url(productImageDTO.getImage_url())
+                .imageUrl(productImageDTO.getImageURL())
                 .build();
         int size=productImageRepository.findByProductId(productId).size();
         if(size>=4)
