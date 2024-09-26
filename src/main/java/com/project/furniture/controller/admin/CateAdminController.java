@@ -42,9 +42,11 @@ public class CateAdminController {
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         categoryService.remove(id);
         ApiResponse apiResponse = ApiResponse
+
                 .builder()
                 .message("delete successfully")
                 .status(HttpStatus.OK.value())
+                .data(id)
                 .build();
         return ResponseEntity.ok(apiResponse);
     }

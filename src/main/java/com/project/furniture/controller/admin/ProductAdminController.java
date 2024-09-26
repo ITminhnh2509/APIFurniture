@@ -9,6 +9,7 @@ import com.project.furniture.service.product.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,7 @@ public class ProductAdminController {
         productService.remove(id);
         ApiResponse apiResponse = ApiResponse
                 .builder()
+                .data(id)
                 .message("delete successfully")
                 .status(HttpStatus.OK.value())
                 .build();
@@ -74,7 +76,7 @@ public class ProductAdminController {
                     .build();
             return ResponseEntity.badRequest().body(apiResponse);
         }
-        Product product1 = productService.update(id, product);
+        Product product1 = productService.updateAdmin(id, product);
         ApiResponse apiResponse = ApiResponse
                 .builder()
                 .data(product1)
@@ -127,5 +129,32 @@ public ResponseEntity<ApiResponse> uploads3(@PathVariable Long id, @ModelAttribu
         return uniqueFileName;
     }
 
+
+    @GetMapping("/images/{imageName}")
+    public ResponseEntity<?> viewImage(@PathVariable String imageName) {
+        try {
+            java.nio.file.Path imagePath = Paths.get("upload/" + imageName);
+            UrlResource reouse = new UrlResource(imagePath.toUri());
+            if (reouse.exists()) {
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
+                        .body(reouse);
+            } else {
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG)
+                        .body(new UrlResource(Paths.get("uploads/notfound.jpeg").toUri()));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/getAllImage/{id}")
+    public ResponseEntity<ApiResponse> getAllImage(@PathVariable Long id){
+        ApiResponse apiResponse=ApiResponse.builder()
+                .data(productService.getAllProductImagesAdmin(id))
+                .status(HttpStatus.OK.value())
+                .message("get thanh cong")
+                .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 
 }

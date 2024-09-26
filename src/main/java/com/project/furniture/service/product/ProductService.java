@@ -1,6 +1,7 @@
 package com.project.furniture.service.product;
 
 import com.project.furniture.dto.product.ProductImageDTO;
+import com.project.furniture.exception.ResourceNotFoundException;
 import com.project.furniture.model.category.Category;
 import com.project.furniture.model.product.Product;
 import com.project.furniture.model.product.ProductImage;
@@ -129,6 +130,34 @@ public class ProductService implements IProductService{
             throw new InvalidParameterException("mỗi sinh viên tối đa 4 hình");
 
         return productImageRepository.save(productImage);
+    }
+
+    @Override
+    public Product updateAdmin(Long id, Product dto) {
+        Product product = getById(id);
+
+        product.setName(dto.getName());
+        product.setPrice(dto.getPrice());
+        product.setDescription(dto.getDescription());
+        product.setActive(dto.isActive());
+
+        // Ensure category is updated properly
+        if (dto.getCategory() != null) {
+            Category category = categoryRepository.findById(dto.getCategory().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category not found with ID: " + dto.getCategory().getId()));
+            product.setCategory(category);
+        }
+
+        // Handle product images if necessary (consider how you want to manage this)
+        product.setProductImages(dto.getProductImages());
+
+        return repository.save(product);
+
+    }
+
+    @Override
+    public List<ProductImage> getAllProductImagesAdmin(Long productId) {
+        return productImageRepository.findByProductId(productId);
     }
 
 

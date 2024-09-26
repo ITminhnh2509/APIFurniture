@@ -29,4 +29,7 @@ public interface IProductService  extends IService<Product,Long> {
 
     ProductImage saveProductImage(Long productId, ProductImageDTO productImageDTO);
 
+    //admin
+    Product updateAdmin(Long id, Product dto);
+    List<ProductImage> getAllProductImagesAdmin(Long studentId);
 }
