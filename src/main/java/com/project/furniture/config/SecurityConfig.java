@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/api/admin/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/admin/**").permitAll()
                 .requestMatchers(HttpMethod.PUT,"/api/admin/**").permitAll()
+                .requestMatchers(HttpMethod.DELETE,"/api/admin/**").permitAll()
                 .anyRequest().authenticated();
                 return http.build();
     }

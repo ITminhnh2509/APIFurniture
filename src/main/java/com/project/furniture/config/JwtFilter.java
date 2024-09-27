@@ -117,7 +117,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 Pair.of(String.format("/%s/furniture/**", apiPrefix), "GET") ,// If needed
                 Pair.of(String.format("/%s/admin/**", apiPrefix), "POST"),
                 Pair.of(String.format("/%s/admin/**", apiPrefix), "GET"), // If needed
-                Pair.of(String.format("/%s/admin/**", apiPrefix), "PUT") // If needed
+                Pair.of(String.format("/%s/admin/**", apiPrefix), "PUT"),
+                Pair.of(String.format("/%s/admin/**", apiPrefix), "DELETE")// If needed
         );
 
         String servletPath = request.getServletPath();
