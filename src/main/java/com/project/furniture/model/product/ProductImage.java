@@ -1,6 +1,7 @@
 package com.project.furniture.model.product;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.furniture.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,6 +24,8 @@ public class ProductImage extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
 //    @JsonBackReference
+
+    @JsonIgnore
     private Product product;
 
 }

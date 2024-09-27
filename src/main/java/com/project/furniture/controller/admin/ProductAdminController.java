@@ -36,11 +36,33 @@ import java.util.stream.Collectors;
 @RequestMapping("api/admin/product")
 public class ProductAdminController {
     private final ProductService productService;
+
+
+    @PostMapping
+    public ResponseEntity<Product> addProduct(@RequestBody ProductDTO productDTO) {
+        // Convert ProductDTO to Product entity
+        Product product = convertToEntity(productDTO);
+        Product savedProduct = productService.save(product);
+        return ResponseEntity.ok(savedProduct);
+    }
+
+    // Method to convert ProductDTO to Product entity
+    private Product convertToEntity(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setDescription(productDTO.getDescription());
+        product.setActive(productDTO.isActive());
+        product.setCategory(productDTO.getCategory());
+        // You can set productImages if needed
+        return product;
+    }
     @GetMapping("/")
     public ResponseEntity<?> getAllProducts() {
         List<Product> products = productService.getAll();
         List<ProductDTO> productDTOs = products.stream()
-                .map(product -> new ProductDTO(product.getName(), product.getPrice(), product.getDescription(), product.isActive(),product.getCategory()))
+                .map(product -> new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.isActive(),product.getCategory()))
                 .collect(Collectors.toList());
 
         ApiResponse apiResponse = ApiResponse.builder()
@@ -50,7 +72,7 @@ public class ProductAdminController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
         ApiResponse apiResponse = ApiResponse
                 .builder()

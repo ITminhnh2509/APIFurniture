@@ -43,6 +43,6 @@ public class Product extends BaseEntity {
     private Category category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+  //  @JsonManagedReference
     private List<ProductImage> productImages;
 }

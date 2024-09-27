@@ -23,11 +23,12 @@ public class ProductDTO {
     private String description;
     private boolean isActive;
     private Category category;
-
+    private Long id;
 
     private List<ProductImage> productImages;
 
-    public ProductDTO(String name, Long price, String description, boolean isActive, Category category) {
+    public ProductDTO(Long id, String name, Long price, String description, boolean isActive, Category category) {
+       this.id=id;
         this.name = name;
         this.price = price;
         this.description = description;
