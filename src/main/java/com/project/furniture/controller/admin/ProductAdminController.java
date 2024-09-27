@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/admin/product")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductAdminController {
     private final ProductService productService;
 
@@ -72,6 +73,7 @@ public class ProductAdminController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
         ApiResponse apiResponse = ApiResponse
@@ -93,6 +95,7 @@ public class ProductAdminController {
                 .build();
         return ResponseEntity.ok(apiResponse);
     }
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product, BindingResult result) {
         if(result.hasErrors()){

@@ -23,8 +23,7 @@ public class ProductImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-//    @JsonBackReference
-
+    @JsonBackReference
     @JsonIgnore
     private Product product;
 
